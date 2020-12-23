@@ -8,11 +8,11 @@
 
 	<doc>
 		<group>
-			<rect width="100" height="200" spriteset="gui/variable/bigwindow_borders.sval" anchor="0.5 0.5">
+			<rect width="120" height="200" spriteset="gui/variable/bigwindow_borders.sval" anchor="0.5 0.5">
 				<!-- Header -->
-				<rect width="96" height="18" offset="2 2" flow="hbox">
+				<rect width="116" height="18" offset="2 2" flow="hbox">
 					<!-- Headline -->
-					<rect width="75" height="18" spriteset="gui/variable/headline_hor.sval">
+					<rect width="95" height="18" spriteset="gui/variable/headline_hor.sval">
 						<text font="gui/fonts/arial11_bold.fnt" text="STATS" anchor="0.5 0.5" />
 					</rect>
 
@@ -21,13 +21,22 @@
 
 					<!-- Close button -->
 					<spritebutton spriteset="close" func="close" />
+
 				</rect>
 
 				<!-- Separator -->
-				<rect width="96" height="3" offset="2 20" spriteset="gui/variable/3pxbar_hor.sval" />
+				<rect width="116" height="3" offset="2 20" spriteset="gui/variable/3pxbar_hor.sval" />
+
+			 	<rect width="116" height="116" color="#202a26FF" offset="2 23" flow="hbox">
+     				<text offset="4" font="gui/fonts/arial11.fnt" color="#FFFFFFFF" text="Unspend points:" />
+     				<text offset="4" id="points_unspend" font="gui/fonts/arial11.fnt" color="#FFFFFFFF" text="1000" />
+ 				</rect>
+
 
 				<!-- List -->
-				<scrollrect id="list" width="96" height="175" offset="2 23" flow="vbox" padding="2 4" spacing="2" color="#202a26FF" shadow="#0c120fFF" shadowsize="2" />
+				<scrollrect id="list" width="116" height="160" offset="2 38" flow="vbox" padding="2 4" spacing="2" color="#202a26FF" shadow="#0c120fFF" shadowsize="0">
+					
+				</scrollrect>
 
 				<!-- Scrollbar -->
 				<!-- <scrollbar forid="list" spriteset="scrollbar" outside="true" offset="3 0" buttons-size="14" trough-offset="18" handle-border="2" /> -->
@@ -40,8 +49,15 @@
 			<!-- Checkbox template -->
 			<checkbox id="template-check" visible="false" offset="2 0" spriteset="checkbox" font="gui/fonts/arial11.fnt" />
 
-			<!-- Button template -->
-			<scalebutton id="template-button" visible="false" spriteset="scalebutton" offset="2 0" font="gui/fonts/arial11.fnt" width="20" />
+			<group id="stat-and-title" flow="hbox" offset="0 10" width="100" height="10">
+				
+			</group>
+
+		<!-- Button template -->
+			<scalebutton id="template-button" visible="true" spriteset="scalebutton" offset="2 0" font="gui/fonts/arial11.fnt" width="20" />
+			<!-- Text widget template -->
+     		<text id="stat-title" offset="3 0" visible="true" font="gui/fonts/arial11.fnt" color="#FFFFFFFF" text="Unspend points:" />
+
 		</group>
 	</doc>
 </gui>
