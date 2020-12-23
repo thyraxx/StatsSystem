@@ -174,9 +174,6 @@ namespace StatsSystem
 		}
 
 
-		//stats.points_health += 1;
-
-
 		// Maybe possible to change it to enums
 		// Switch only works with integral type
 		//switch(statName)
