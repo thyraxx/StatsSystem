@@ -5,9 +5,10 @@ namespace StatsSystem
 		ScrollableWidget@ m_wList;
 		Widget@ m_wTemplateCheck;
 		Widget@ m_wTemplateButton;
-		//StatsPoints@ stats;
+		TextWidget@ m_wTemplateText;
+		GroupWidget@ m_wTemplateRectWidget;
 		
-		//array<string> arrayStats = { "health", "health_regen", "mana", "mana_regen", "armor", "resistance"};
+		// Should I use this, or rather lang file?
 		dictionary dict = { {"health", "Health"}, {"health_regen", "Health Regen"}, {"mana", "Mana"}, {"mana_regen", "Mana Regen"}, {"armor", "Armor"}, {"resistance", "Resistance"} };
 
 		StatsSystem(GUIBuilder@ b)
@@ -16,6 +17,10 @@ namespace StatsSystem
 
 			@m_wList = cast<ScrollableWidget>(m_widget.GetWidgetById("list"));
 			@m_wTemplateButton = m_widget.GetWidgetById("template-button");
+			@m_wTemplateText = cast<TextWidget>(m_widget.GetWidgetById("stat-title"));
+			@m_wTemplateRectWidget = cast<GroupWidget>(m_widget.GetWidgetById("stat-and-title"));
+
+
 		}
 
 		void Show() override
@@ -24,19 +29,27 @@ namespace StatsSystem
 			m_wList.ClearChildren();
 
 			Widget@ wNewButton = null;
+			GroupWidget@ wRectWidget = null;
 
 			for(uint i = 0; i < dict.getKeys().length(); i++)
 			{
 				auto wNewButtonStat = cast<ScalableSpriteButtonWidget>(m_wTemplateButton.Clone());
+				auto wNewTextTitle = cast<TextWidget>(m_wTemplateText.Clone());
+				auto wRectWidget = cast<GroupWidget>(m_wTemplateRectWidget.Clone());
+
 				wNewButtonStat.m_func = "action " + string(dict.getKeys()[i]);
 				wNewButtonStat.SetText("+");
+				wNewButtonStat.m_enabled = (i % 2 == 0); // TODO: Change! THis is just for testing
 				@wNewButton = wNewButtonStat;
 				wNewButton.m_tooltipText = string(dict[ dict.getKeys()[i] ]);
+				wNewTextTitle.SetText(string(dict[ dict.getKeys()[i] ]));
 
 				wNewButton.m_visible = true;
 				wNewButton.SetID("");
 
-				m_wList.AddChild(wNewButton);
+				wRectWidget.AddChild(wNewButtonStat);
+				wRectWidget.AddChild(wNewTextTitle);
+				m_wList.AddChild(wRectWidget);
 			}
 
 			m_wList.ResumeScrolling();
