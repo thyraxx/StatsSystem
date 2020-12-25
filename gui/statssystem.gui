@@ -54,9 +54,9 @@
 			</group>
 
 		<!-- Button template -->
-			<scalebutton id="template-button" visible="true" spriteset="scalebutton" offset="2 0" font="gui/fonts/arial11.fnt" width="20" />
+			<scalebutton id="template-button" visible="false" spriteset="scalebutton" offset="2 0" font="gui/fonts/arial11.fnt" width="20" />
 			<!-- Text widget template -->
-     		<text id="stat-title" offset="3 0" visible="true" font="gui/fonts/arial11.fnt" color="#FFFFFFFF" text="Unspend points:" />
+     		<text id="stat-title" offset="3 0" visible="false" font="gui/fonts/arial11.fnt" color="#FFFFFFFF" text="Unspend points:" />
 
 		</group>
 	</doc>

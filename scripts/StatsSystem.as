@@ -8,7 +8,7 @@ namespace StatsSystem
 		TextWidget@ m_wTemplateText;
 		GroupWidget@ m_wTemplateRectWidget;
 		
-		// Should I use this, or rather lang file?
+		// Should I use this, or rather a .lang file?
 		dictionary dict = { {"health", "Health"}, {"health_regen", "Health Regen"}, {"mana", "Mana"}, {"mana_regen", "Mana Regen"}, {"armor", "Armor"}, {"resistance", "Resistance"} };
 
 		StatsSystem(GUIBuilder@ b)
@@ -35,16 +35,18 @@ namespace StatsSystem
 			{
 				auto wNewButtonStat = cast<ScalableSpriteButtonWidget>(m_wTemplateButton.Clone());
 				auto wNewTextTitle = cast<TextWidget>(m_wTemplateText.Clone());
-				auto wRectWidget = cast<GroupWidget>(m_wTemplateRectWidget.Clone());
+				auto wNewRectWidget = cast<GroupWidget>(m_wTemplateRectWidget.Clone());
 
 				wNewButtonStat.m_func = "action " + string(dict.getKeys()[i]);
 				wNewButtonStat.SetText("+");
 				wNewButtonStat.m_enabled = (i % 2 == 0); // TODO: Change! THis is just for testing
 				@wNewButton = wNewButtonStat;
+				@wRectWidget = wNewRectWidget;
 				wNewButton.m_tooltipText = string(dict[ dict.getKeys()[i] ]);
 				wNewTextTitle.SetText(string(dict[ dict.getKeys()[i] ]));
 
 				wNewButton.m_visible = true;
+				wNewTextTitle.m_visible = true;
 				wNewButton.SetID("");
 
 				wRectWidget.AddChild(wNewButtonStat);
