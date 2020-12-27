@@ -18,6 +18,16 @@ namespace StatsSystem
 		int points_resistance = 0;
 		int points_unused = 0;
 
+		dictionary statsDict = { 
+			{"points_health", 0},
+			{"points_mana", 0},
+			{"points_health_regen", 0},
+			{"points_mana_regen", 0},
+			{"points_armor", 0},
+			{"points_resistance", 0},
+			{"points_unused", 0}
+		};
+
 		// TODO: implement these
 		//int points_attack_speed = 0;
 		//int points_cast_cooldown = 0;
@@ -28,13 +38,8 @@ namespace StatsSystem
 	[Hook]
 	void GameModeConstructor(Campaign@ campaign)
 	{
-		AddFunction("add_point_to", { cvar_type::String }, AddPointTo, cvar_flags::Cheat);
-		//AddFunction("add_stats_hp_regen", { cvar_type::Int }, AddPointsToHealthStats);
-		//AddFunction("add_stats_mana", { cvar_type::Int }, AddPointsToHealthStats);
-		//AddFunction("add_stats_mana_regen", { cvar_type::Int }, AddPointsToHealthStats);
-		//AddFunction("add_stats_armor", { cvar_type::Int }, AddPointsToHealthStats);
-		//AddFunction("add_stats_resistance", { cvar_type::Int }, AddPointsToHealthStats);
-		
+		AddFunction("add_point_to", { cvar_type::String }, AddPointTo, cvar_flags::Cheat,
+			"Gives a point to a chosen stat (add_point_to <health>/<health_regen>/<mana>), etc");
 	}
 
 	[Hook]
@@ -59,12 +64,12 @@ namespace StatsSystem
 		m_record.classStats.level_armor = 0;
 		m_record.classStats.level_resistance = 0;
 
-		m_record.classStats.base_health = m_record.classStats.base_health + stats.points_health * 1;
-		m_record.classStats.base_health_regen = m_record.classStats.base_health_regen + stats.points_health_regen * 1;
-		m_record.classStats.base_mana = m_record.classStats.base_mana + stats.points_mana * 1;
-		m_record.classStats.base_mana_regen = m_record.classStats.base_mana_regen + stats.points_mana_regen * 1;
-		m_record.classStats.base_armor = m_record.classStats.base_armor + stats.points_armor * 1;
-		m_record.classStats.base_resistance = m_record.classStats.base_resistance + stats.points_resistance * 1;
+		m_record.classStats.base_health = m_record.classStats.base_health + int(stats.statsDict["points_health"]) * 1;
+		m_record.classStats.base_health_regen = m_record.classStats.base_health_regen + int(stats.statsDict["points_health_regen"]) * 1;
+		m_record.classStats.base_mana = m_record.classStats.base_mana + int(stats.statsDict["points_mana"]) * 1;
+		m_record.classStats.base_mana_regen = m_record.classStats.base_mana_regen + int(stats.statsDict["points_mana_regen"]) * 1;
+		m_record.classStats.base_armor = m_record.classStats.base_armor + int(stats.statsDict["points_armor"]) * 1;
+		m_record.classStats.base_resistance = m_record.classStats.base_resistance + int(stats.statsDict["points_resistance"]) * 1;
 
 
 	}
@@ -75,28 +80,27 @@ namespace StatsSystem
 	{
 		@m_record = record;
 
-		stats.points_health = GetParamInt(UnitPtr(), sval, "points_health", false);
-		stats.points_mana = GetParamInt(UnitPtr(), sval, "points_mana", false);
-		stats.points_health_regen = GetParamInt(UnitPtr(), sval, "points_health_regen", false);
-		stats.points_mana_regen = GetParamInt(UnitPtr(), sval, "points_mana_regen", false);
-		stats.points_armor = GetParamInt(UnitPtr(), sval, "points_armor", false);
-		stats.points_resistance = GetParamInt(UnitPtr(), sval, "points_resistance", false);
+		stats.statsDict["points_health"] = int(GetParamInt(UnitPtr(), sval, "points_health", false));
+		stats.statsDict["points_health_regen"] = GetParamInt(UnitPtr(), sval, "points_health_regen", false);
+		stats.statsDict["points_mana"] = GetParamInt(UnitPtr(), sval, "points_mana", false);
+		stats.statsDict["points_mana_regen"] = GetParamInt(UnitPtr(), sval, "points_mana_regen", false);
+		stats.statsDict["points_armor"] = GetParamInt(UnitPtr(), sval, "points_armor", false);
+		stats.statsDict["points_resistance"] = GetParamInt(UnitPtr(), sval, "points_resistance", false);
 		//GetParamInt(UnitPtr(), sval, "points_unused", false);
 
 
-		print("stats.points_health: " + stats.points_health);
-		print("stats.points_mana: " + stats.points_mana);
-		print("stats.points_health_regen: " + stats.points_health_regen);
-		print("stats.points_mana_regen: " + stats.points_mana_regen);
-		print("stats.points_armor: " + stats.points_armor);
-		print("stats.points_resistance: " + stats.points_resistance);
+		print("stats.points_health: " + int(stats.statsDict["points_health"]));
+		print("stats.points_mana: " + int(stats.statsDict["points_health_regen"]));
+		print("stats.points_health_regen: " + int(stats.statsDict["points_mana"]));
+		print("stats.points_mana_regen: " + int(stats.statsDict["points_mana_regen"]));
+		print("stats.points_armor: " + int(stats.statsDict["points_armor"]));
+		print("stats.points_resistance: " + int(stats.statsDict["points_resistance"]));
 
 		print("PlayerLevel: " + (record.EffectiveLevel()) );
 	}
 
 	void RefreshPlayerStats()
 	{
-		m_record.classStats.base_health = stats.points_health;
 	}
 
 	[Hook]
@@ -104,12 +108,13 @@ namespace StatsSystem
 	{
 		print(stats.points_health);
 		// Save user spended and still spendable points
-		builder.PushInteger("points_health", stats.points_health);
-		builder.PushInteger("points_mana", stats.points_mana);
-		builder.PushInteger("points_health_regen", stats.points_health_regen);
-		builder.PushInteger("points_mana_regen", stats.points_mana_regen);
-		builder.PushInteger("points_armor", stats.points_armor);
-		builder.PushInteger("points_resistance", stats.points_resistance);
+
+		builder.PushInteger("points_health", int(stats.statsDict["points_health"]));
+		builder.PushInteger("points_mana", int(stats.statsDict["points_health_regen"]));
+		builder.PushInteger("points_health_regen", int(stats.statsDict["points_mana"]));
+		builder.PushInteger("points_mana_regen", int(stats.statsDict["points_mana_regen"]));
+		builder.PushInteger("points_armor", int(stats.statsDict["points_armor"]));
+		builder.PushInteger("points_resistance", int(stats.statsDict["points_resistance"]));
 
 		//TODO: fix and implement
 		//builder.PushInteger("points_attack_speed", stats.points_attack_speed);
@@ -118,7 +123,6 @@ namespace StatsSystem
 		//builder.PushInteger("points_unused", GetAmountUnSpentPoints());
 
 	}
-
 
 	int GetAmountUnSpentPoints()
 	{
@@ -148,9 +152,9 @@ namespace StatsSystem
 
 		if(statName == "health")
 		{
-			stats.points_health += 1;
+			stats.statsDict["points_health"] = int(stats.statsDict["points_health"]) + 1;
 			m_record.classStats.base_health += 1 * 1;
-			print(stats.points_health);
+			print(int(stats.statsDict["points_health"]));
 		}else if(statName == "health_regen"){
 			stats.points_health_regen += 1;
 			m_record.classStats.base_health_regen += 1 * 1;
