@@ -1,14 +1,15 @@
-namespace StatsSystem
+namespace StatsSystemNS
 {
 	class StatsSystem : UserWindow
 	{
 		ScrollableWidget@ m_wList;
-		Widget@ m_wTemplateCheck;
 		Widget@ m_wTemplateButton;
+		Widget@ m_wPointsUnspentRect;
 		TextWidget@ m_wTemplateText;
+		TextWidget@ m_wPointsUnspentText;
 		GroupWidget@ m_wTemplateRectWidget;
 		
-		// Should I use this, or rather a .lang file?
+		// Should I use this, or rather a combination of this and .lang file?
 		dictionary dict = { {"health", "Health"}, {"health_regen", "Health Regen"}, {"mana", "Mana"}, {"mana_regen", "Mana Regen"}, {"armor", "Armor"}, {"resistance", "Resistance"} };
 
 		StatsSystem(GUIBuilder@ b)
@@ -19,14 +20,22 @@ namespace StatsSystem
 			@m_wTemplateButton = m_widget.GetWidgetById("template-button");
 			@m_wTemplateText = cast<TextWidget>(m_widget.GetWidgetById("stat-title"));
 			@m_wTemplateRectWidget = cast<GroupWidget>(m_widget.GetWidgetById("stat-and-title"));
-
-
+			@m_wPointsUnspentText = cast<TextWidget>(m_widget.GetWidgetById("points-unspent"));
+			@m_wPointsUnspentRect = m_widget.GetWidgetById("points-unspent-rect");			
 		}
 
 		void Show() override
 		{
+
+			CreateList();
+		}
+
+		void CreateList()
+		{
 			m_wList.PauseScrolling();
 			m_wList.ClearChildren();
+
+			m_wPointsUnspentText.SetText("Unspent: " + int(stats.statsDict["points_unused"]) );
 
 			Widget@ wNewButton = null;
 			GroupWidget@ wRectWidget = null;
@@ -39,11 +48,11 @@ namespace StatsSystem
 
 				wNewButtonStat.m_func = "action " + string(dict.getKeys()[i]);
 				wNewButtonStat.SetText("+");
-				wNewButtonStat.m_enabled = (i % 2 == 0); // TODO: Change! THis is just for testing
+				wNewButtonStat.m_enabled = ( int(stats.statsDict["points_unused"]) > 0 );
 				@wNewButton = wNewButtonStat;
 				@wRectWidget = wNewRectWidget;
 				wNewButton.m_tooltipText = string(dict[ dict.getKeys()[i] ]);
-				wNewTextTitle.SetText(string(dict[ dict.getKeys()[i] ]));
+				wNewTextTitle.SetText( string(dict[ dict.getKeys()[i] ]) );
 
 				wNewButton.m_visible = true;
 				wNewTextTitle.m_visible = true;
@@ -59,39 +68,26 @@ namespace StatsSystem
 			UserWindow::Show();
 		}
 
+		void RefreshList()
+		{
+			m_wPointsUnspentText.SetText("Unspent: " + int(stats.statsDict["points_unused"]) );
+
+			auto statAndTitleGroup = m_wList.GetWidgetsById("stat-and-title");
+			for(uint i = 0; i < statAndTitleGroup.length(); i++)
+			{
+				auto m_wItem = cast<ScalableSpriteButtonWidget>(statAndTitleGroup[i].m_children[0]);
+				m_wItem.m_enabled = ( int(stats.statsDict["points_unused"]) > 0 );
+			}
+		}
+
 		void OnFunc(Widget@ sender, string name) override
 		{
 			auto parse = name.split(" ");
-			auto statName = parse[1];
 
 			if (parse[0] == "action")
 			{
-				if(statName == "health")
-				{
-					stats.points_health += 1;
-					m_record.classStats.base_health += 1 * 1;
-					print(stats.points_health);
-				}else if(statName == "health_regen"){
-					stats.points_health_regen += 1;
-					m_record.classStats.base_health_regen += 1 * 1;
-					print(stats.points_health_regen);
-				}else if(statName == "mana"){
-					stats.points_mana += 1;
-					m_record.classStats.base_mana += 1 * 1;
-					print(stats.points_mana);
-				}else if(statName == "mana_regen"){
-					stats.points_mana_regen += 1;
-					m_record.classStats.base_mana_regen += 1 * 1;
-					print(stats.points_mana_regen);
-				}else if(statName == "armor"){
-					stats.points_armor += 1;
-					m_record.classStats.base_armor += 1 * 1;
-					print(stats.points_armor);
-				}else if(statName == "resistance"){
-					stats.points_resistance += 1;
-					m_record.classStats.base_resistance += 1 * 1;
-					print(stats.points_resistance);
-				}
+				StatsSystemNS::AddPointTo(parse[1]);
+				RefreshList();
 			}
 			else
 				UserWindow::OnFunc(sender, name);
