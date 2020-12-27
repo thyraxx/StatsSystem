@@ -28,8 +28,8 @@
 				<rect width="116" height="3" offset="2 20" spriteset="gui/variable/3pxbar_hor.sval" />
 
 			 	<rect width="116" height="116" color="#202a26FF" offset="2 23" flow="hbox">
-     				<text offset="4" font="gui/fonts/arial11.fnt" color="#FFFFFFFF" text="Unspend points:" />
-     				<text offset="4" id="points_unspend" font="gui/fonts/arial11.fnt" color="#FFFFFFFF" text="1000" />
+     				<!-- <text offset="4" font="gui/fonts/arial11.fnt" color="#FFFFFFFF" text="Unspend points:" /> -->
+     				<text offset="4" id="points-unspent" font="gui/fonts/arial11.fnt" color="#FFFFFFFF" text="1000" />
  				</rect>
 
 
@@ -49,7 +49,7 @@
 			<!-- Checkbox template -->
 			<checkbox id="template-check" visible="false" offset="2 0" spriteset="checkbox" font="gui/fonts/arial11.fnt" />
 
-			<group id="stat-and-title" flow="hbox" offset="0 10" width="100" height="10">
+			<group id="stat-and-title" flow="hbox" offset="0 2" width="100" height="20">
 				
 			</group>
 
