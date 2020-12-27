@@ -56,6 +56,7 @@ namespace StatsSystemNS
 		m_record.classStats.level_armor = 0;
 		m_record.classStats.level_resistance = 0;
 
+		// Our own custom level up values
 		m_record.classStats.base_health = m_record.classStats.base_health + float(stats.statsDict["points_health"]) * 1;
 		m_record.classStats.base_health_regen = m_record.classStats.base_health_regen + float(stats.statsDict["points_health_regen"]) * 0.1;
 		m_record.classStats.base_mana = m_record.classStats.base_mana + float(stats.statsDict["points_mana"]) * 1;
@@ -79,23 +80,12 @@ namespace StatsSystemNS
 		stats.statsDict["points_armor"] = GetParamFloat(UnitPtr(), sval, "points_armor", false);
 		stats.statsDict["points_resistance"] = GetParamFloat(UnitPtr(), sval, "points_resistance", false);
 		stats.statsDict["points_unused"] = GetParamInt(UnitPtr(), sval, "points_unused", false, stats.pointsOnLevelUp * stats.currentLevel );
-
-
-		print("stats.points_health: " + float(stats.statsDict["points_health"]));
-		print("stats.points_mana: " + float(stats.statsDict["points_health_regen"]));
-		print("stats.points_health_regen: " + float(stats.statsDict["points_mana"]));
-		print("stats.points_mana_regen: " + float(stats.statsDict["points_mana_regen"]));
-		print("stats.points_armor: " + float(stats.statsDict["points_armor"]));
-		print("stats.points_resistance: " + float(stats.statsDict["points_resistance"]));
-
-		print("PlayerLevel: " + (record.EffectiveLevel()) );
 	}
 
 	[Hook]
 	void PlayerRecordSave(PlayerRecord@ record, SValueBuilder &builder)
 	{
-		// Save user spended and still spendable points
-
+		// Save user data
 		builder.PushFloat("points_health", float(stats.statsDict["points_health"]));
 		builder.PushFloat("points_mana", float(stats.statsDict["points_health_regen"]));
 		builder.PushFloat("points_health_regen", float(stats.statsDict["points_mana"]));
@@ -105,10 +95,9 @@ namespace StatsSystemNS
 		builder.PushInteger("points_unused", int(stats.statsDict["points_unused"]));
 
 
-		//TODO: fix and implement
+		//TODO: Implement
 		//builder.PushInteger("points_attack_speed", stats.points_attack_speed);
 		//builder.PushInteger("points_cast_cooldown", stats.points_cast_cooldown);
-		//record.userdata.set("points_cast_cooldown", stats.points_cast_cooldown);
 	}
 
 	int totalSpentPoints()
