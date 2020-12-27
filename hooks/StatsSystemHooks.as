@@ -37,11 +37,6 @@ namespace StatsSystemNS
 	}
 
 	[Hook]
-	void GameModeInitializePlayer(Campaign@ campaign, PlayerRecord@ record)
-	{
-	}
-
-	[Hook]
 	void GameModeSpawnPlayer(Campaign@ campaign, PlayerRecord@ record)
 	{
 		@m_record = record;
