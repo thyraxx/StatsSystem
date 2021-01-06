@@ -52,9 +52,9 @@ namespace StatsSystemNS
 		m_record.classStats.level_resistance = 0;
 
 		// Our own custom level up values
-		m_record.classStats.base_health = m_record.classStats.base_health + float(stats.statsDict["points_health"]) * 1;
+		m_record.classStats.base_health = m_record.classStats.base_health + float(stats.statsDict["points_health"]) * 5;
 		m_record.classStats.base_health_regen = m_record.classStats.base_health_regen + float(stats.statsDict["points_health_regen"]) * 0.1;
-		m_record.classStats.base_mana = m_record.classStats.base_mana + float(stats.statsDict["points_mana"]) * 1;
+		m_record.classStats.base_mana = m_record.classStats.base_mana + float(stats.statsDict["points_mana"]) * 5;
 		m_record.classStats.base_mana_regen = m_record.classStats.base_mana_regen + float(stats.statsDict["points_mana_regen"]) * 0.2;
 		m_record.classStats.base_armor = m_record.classStats.base_armor + float(stats.statsDict["points_armor"]) * 1;
 		m_record.classStats.base_resistance = m_record.classStats.base_resistance + float(stats.statsDict["points_resistance"]) * 1;
