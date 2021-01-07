@@ -201,13 +201,16 @@ namespace StatsSystemNS
 		if (g_interface is null)
 			return;
 
-		if (Platform::GetKeyState(61).Pressed) // F4
+		if (Platform::GetKeyState(62).Pressed) // F5
 			campaign.ToggleUserWindow(g_interface);
 
+		// Might be better if we did this in some player level up function instead
+		// checking every tick if player is leveled up.
 		if(LevelChanged())
 		{
 			// For now only works per level, if multiple levels are gained as one level up
 			// you still only gain 5 points
+			stats.currentLevel = m_record.EffectiveLevel();
 			stats.statsDict["points_unused"] = int(stats.statsDict["points_unused"]) + 5;
 			g_interface.RefreshList();
 		}
