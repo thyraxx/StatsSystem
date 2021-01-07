@@ -127,7 +127,22 @@ namespace StatsSystemNS
 	void ResetPointsUnused(cvar_t@ arg0)
 	{
 		if(arg0.GetBool())
-			stats.statsDict["points_unused"] = 5;
+		{
+			int totalSpentPoints = 0;
+
+			for(uint i = 0; i < stats.statsDict.getKeys().length(); i++)
+			{
+				totalSpentPoints += int(stats.statsDict[ stats.statsDict.getKeys()[i] ]);
+				stats.statsDict[ stats.statsDict.getKeys()[i] ] = 0;
+			}
+			
+			stats.statsDict["points_unused"] = totalSpentPoints;
+
+			g_allModifiers.m_modsAttackTimeMulConst = 1.0f;
+			g_allModifiers.m_modsSkillTimeMulConst = 1.0f;
+
+			g_interface.RefreshList();
+		}
 	}
 
 	bool LevelChanged()
