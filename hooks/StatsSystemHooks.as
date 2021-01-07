@@ -164,7 +164,7 @@ namespace StatsSystemNS
 			print( float(stats.statsDict["points_health"]) );
 		}else if(statName == "health_regen"){
 			stats.statsDict["points_health_regen"] = float(stats.statsDict["points_health_regen"]) + 1;
-			m_record.classStats.base_health_regen += 1 * 1;
+			m_record.classStats.base_health_regen += 1 * 0.1f;
 			print( float(stats.statsDict["points_health_regen"]) );
 		}else if(statName == "mana"){
 			stats.statsDict["points_mana"] = float(stats.statsDict["points_mana"]) + 1;
@@ -172,7 +172,7 @@ namespace StatsSystemNS
 			print( float(stats.statsDict["points_mana"]) );
 		}else if(statName == "mana_regen"){
 			stats.statsDict["points_mana_regen"] = float(stats.statsDict["points_mana_regen"]) + 1;
-			m_record.classStats.base_mana_regen += 1 * 1;
+			m_record.classStats.base_mana_regen += 1 * 0.2f;
 			print( float(stats.statsDict["points_mana_regen"]) );
 		}else if(statName == "armor"){
 			stats.statsDict["points_armor"] = float(stats.statsDict["points_armor"]) + 1;
