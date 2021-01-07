@@ -32,12 +32,21 @@ namespace StatsSystemNS
 			"Gives a point to a chosen stat (add_point_to <health>/<health_regen>/<mana>), etc");
 
 		AddFunction("reset_points", { cvar_type::Bool }, ResetPointsUnused, cvar_flags::Cheat);
+
+		// So Blood altars won't spawn
+		// I'll be honest, I don't know for sure if this works
+		// But with some extensive testing I didn't saw any BR's spawning anymore.
+		// I think this overwrite the usual Flag which should contain WH, to check if
+		// you have this DLC, but since I changed it to something nonexistent, it can't spawn anymore.
+		g_flags.m_flags["special_blood_altar"] = "NOBR";
 	}
 
 	[Hook]
 	void GameModeSpawnPlayer(Campaign@ campaign, PlayerRecord@ record)
 	{
 		@m_record = record;
+
+		m_record.bloodAltarRewards.removeRange(0, m_record.bloodAltarRewards.length());
 
 
 		// Level up values, set this to 0 because we want to give
