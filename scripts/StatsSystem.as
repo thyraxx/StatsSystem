@@ -10,7 +10,7 @@ namespace StatsSystemNS
 		GroupWidget@ m_wTemplateRectWidget;
 		
 		// Should I use this, or rather a combination of this and .lang file?
-		dictionary dict = { {"health", "Health"}, {"health_regen", "Health Regen"}, {"mana", "Mana"}, {"mana_regen", "Mana Regen"}, {"armor", "Armor"}, {"resistance", "Resistance"} };
+		dictionary dict = { {"health", "Health"}, {"health_regen", "Health Regen"}, {"mana", "Mana"}, {"mana_regen", "Mana Regen"}, {"armor", "Armor"}, {"resistance", "Resistance"}, {"attack_speed", "Attack Speed"}, {"skill_speed", "Cooldown"} };
 
 		StatsSystem(GUIBuilder@ b)
 		{
