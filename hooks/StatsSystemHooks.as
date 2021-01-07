@@ -17,12 +17,10 @@ namespace StatsSystemNS
 			{"points_mana_regen", 0},
 			{"points_armor", 0},
 			{"points_resistance", 0},
+			{"points_attack_speed", 0}, // is the first "skill", aka primary attack
+			{"points_skill_speed", 0}, // aka cooldown
 			{"points_unused", 5}
 		};
-
-		// TODO: implement these
-		//int points_attack_speed = 0;
-		//int points_cast_cooldown = 0;
 
 		StatsPoints() {};
 	}
@@ -67,14 +65,19 @@ namespace StatsSystemNS
 
 		stats.currentLevel = record.EffectiveLevel();
 
-		print(stats.currentLevel);
 		stats.statsDict["points_health"] = GetParamFloat(UnitPtr(), sval, "points_health", false);
 		stats.statsDict["points_health_regen"] = GetParamFloat(UnitPtr(), sval, "points_health_regen", false);
 		stats.statsDict["points_mana"] = GetParamFloat(UnitPtr(), sval, "points_mana", false);
 		stats.statsDict["points_mana_regen"] = GetParamFloat(UnitPtr(), sval, "points_mana_regen", false);
 		stats.statsDict["points_armor"] = GetParamFloat(UnitPtr(), sval, "points_armor", false);
 		stats.statsDict["points_resistance"] = GetParamFloat(UnitPtr(), sval, "points_resistance", false);
+		stats.statsDict["points_attack_speed"] = GetParamFloat(UnitPtr(), sval, "points_attack_speed", false);
+		stats.statsDict["points_skill_speed"] = GetParamFloat(UnitPtr(), sval, "points_skill_speed", false);
+
 		stats.statsDict["points_unused"] = GetParamInt(UnitPtr(), sval, "points_unused", false, stats.pointsOnLevelUp * stats.currentLevel );
+
+		g_allModifiers.m_modsAttackTimeMulConst = float( stats.statsDict["points_attack_speed"] ) * 0.01f + 1;
+		g_allModifiers.m_modsSkillTimeMulConst = float( stats.statsDict["points_skill_speed"] ) * 0.01f + 1;
 	}
 
 	[Hook]
@@ -87,12 +90,10 @@ namespace StatsSystemNS
 		builder.PushFloat("points_mana_regen", float(stats.statsDict["points_mana_regen"]));
 		builder.PushFloat("points_armor", float(stats.statsDict["points_armor"]));
 		builder.PushFloat("points_resistance", float(stats.statsDict["points_resistance"]));
+		builder.PushFloat("points_attack_speed", float(stats.statsDict["points_attack_speed"]));
+		builder.PushFloat("points_skill_speed", float(stats.statsDict["points_skill_speed"]));
+
 		builder.PushInteger("points_unused", int(stats.statsDict["points_unused"]));
-
-
-		//TODO: Implement
-		//builder.PushInteger("points_attack_speed", stats.points_attack_speed);
-		//builder.PushInteger("points_cast_cooldown", stats.points_cast_cooldown);
 	}
 
 	int totalSpentPoints()
@@ -127,12 +128,11 @@ namespace StatsSystemNS
 
 	void AddPointTo(string statName)
 	{
-		
 		print("Adding a point to " + statName);
 		stats.statsDict["points_unused"] = int(stats.statsDict["points_unused"]) - 1;
 
 		// Maybe possible to use a switch instead?
-		// But can only use integral
+		// But can only use integral, need to change to enums possibly
 		if(statName == "health")
 		{
 			stats.statsDict["points_health"] = float(stats.statsDict["points_health"]) + 1;
@@ -158,6 +158,16 @@ namespace StatsSystemNS
 			stats.statsDict["points_resistance"] = float(stats.statsDict["points_resistance"]) + 1;
 			m_record.classStats.base_resistance += 1 * 1;
 			print( float(stats.statsDict["points_resistance"]) );
+		}else if(statName == "attack_speed"){
+			stats.statsDict["points_attack_speed"] = float(stats.statsDict["points_attack_speed"]) + 1;
+			g_allModifiers.m_modsAttackTimeMulConst += 0.01f;
+			print(g_allModifiers.m_modsAttackTimeMulConst);
+			print( float(stats.statsDict["points_attack_speed"]) );
+		}else if(statName == "skill_speed"){
+			stats.statsDict["points_skill_speed"] = float(stats.statsDict["points_skill_speed"]) + 1;
+			g_allModifiers.m_modsSkillTimeMulConst += 0.01f;
+			print(g_allModifiers.m_modsSkillTimeMulConst);
+			print( float(stats.statsDict["points_skill_speed"]) );
 		}
 	}
 
