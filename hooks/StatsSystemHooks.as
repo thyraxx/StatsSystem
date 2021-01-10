@@ -230,6 +230,16 @@ namespace StatsSystemNS
 		if (Platform::GetKeyState(62).Pressed) // F5
 			campaign.ToggleUserWindow(g_interface);
 
+		// Setting value each tick? I dislike this
+		if( int(stats.statsDict["points_unused"]) >= 10 && (Platform::GetKeyState(224).Down || Platform::GetKeyState(228).Down) )
+		{
+			addedValue = 10;
+		}else if( int(stats.statsDict["points_unused"]) >= 5 && (Platform::GetKeyState(225).Down || Platform::GetKeyState(229).Down) ){
+			addedValue = 5;
+		}else{
+			addedValue = 1;
+		}
+
 		// Might be better if we did this in some player level up function instead
 		// checking every tick if player is leveled up.
 		if(LevelChanged())
