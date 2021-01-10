@@ -5,6 +5,7 @@ namespace StatsSystemNS
 	SValue@ sval;
 	StatsSystem@ g_interface;
 
+	int addedValue = 1;
 	class StatsPoints
 	{
 		int currentLevel = 0;
@@ -164,43 +165,45 @@ namespace StatsSystemNS
 	void AddPointTo(string statName)
 	{
 		print("Adding a point to " + statName);
-		stats.statsDict["points_unused"] = int(stats.statsDict["points_unused"]) - 1;
+		stats.statsDict["points_unused"] = int(stats.statsDict["points_unused"]) - addedValue;
+
+
 
 		// Maybe possible to use a switch instead?
 		// But can only use integral, need to change to enums possibly
 		if(statName == "health")
 		{
-			stats.statsDict["points_health"] = float(stats.statsDict["points_health"]) + 1;
-			m_record.classStats.base_health += 1 * 1;
+			stats.statsDict["points_health"] = float(stats.statsDict["points_health"]) + addedValue;
+			m_record.classStats.base_health += 1 * addedValue;
 			print( float(stats.statsDict["points_health"]) );
 		}else if(statName == "health_regen"){
-			stats.statsDict["points_health_regen"] = float(stats.statsDict["points_health_regen"]) + 1;
-			m_record.classStats.base_health_regen += 1 * 0.1f;
+			stats.statsDict["points_health_regen"] = float(stats.statsDict["points_health_regen"]) + addedValue;
+			m_record.classStats.base_health_regen += 0.1f * addedValue;
 			print( float(stats.statsDict["points_health_regen"]) );
 		}else if(statName == "mana"){
-			stats.statsDict["points_mana"] = float(stats.statsDict["points_mana"]) + 1;
-			m_record.classStats.base_mana += 1 * 1;
+			stats.statsDict["points_mana"] = float(stats.statsDict["points_mana"]) + addedValue;
+			m_record.classStats.base_mana += 1 * addedValue;
 			print( float(stats.statsDict["points_mana"]) );
 		}else if(statName == "mana_regen"){
-			stats.statsDict["points_mana_regen"] = float(stats.statsDict["points_mana_regen"]) + 1;
-			m_record.classStats.base_mana_regen += 1 * 0.2f;
+			stats.statsDict["points_mana_regen"] = float(stats.statsDict["points_mana_regen"]) + addedValue;
+			m_record.classStats.base_mana_regen += 0.2f * addedValue;
 			print( float(stats.statsDict["points_mana_regen"]) );
 		}else if(statName == "armor"){
-			stats.statsDict["points_armor"] = float(stats.statsDict["points_armor"]) + 1;
-			m_record.classStats.base_armor += 1 * 1;
+			stats.statsDict["points_armor"] = float(stats.statsDict["points_armor"]) + addedValue;
+			m_record.classStats.base_armor += 1 * addedValue;
 			print( float(stats.statsDict["points_armor"]) );
 		}else if(statName == "resistance"){
-			stats.statsDict["points_resistance"] = float(stats.statsDict["points_resistance"]) + 1;
-			m_record.classStats.base_resistance += 1 * 1;
+			stats.statsDict["points_resistance"] = float(stats.statsDict["points_resistance"]) + addedValue;
+			m_record.classStats.base_resistance += 1 * addedValue;
 			print( float(stats.statsDict["points_resistance"]) );
 		}else if(statName == "attack_speed"){
-			stats.statsDict["points_attack_speed"] = float(stats.statsDict["points_attack_speed"]) + 1;
-			g_allModifiers.m_modsAttackTimeMulConst += 0.01f;
+			stats.statsDict["points_attack_speed"] = float(stats.statsDict["points_attack_speed"]) + addedValue;
+			g_allModifiers.m_modsAttackTimeMulConst += 0.01f * addedValue;
 			print(g_allModifiers.m_modsAttackTimeMulConst);
 			print( float(stats.statsDict["points_attack_speed"]) );
 		}else if(statName == "skill_speed"){
-			stats.statsDict["points_skill_speed"] = float(stats.statsDict["points_skill_speed"]) + 1;
-			g_allModifiers.m_modsSkillTimeMulConst += 0.01f;
+			stats.statsDict["points_skill_speed"] = float(stats.statsDict["points_skill_speed"]) + addedValue;
+			g_allModifiers.m_modsSkillTimeMulConst += 0.01f * addedValue;
 			print(g_allModifiers.m_modsSkillTimeMulConst);
 			print( float(stats.statsDict["points_skill_speed"]) );
 		}else if(statName == "attack_damage"){
