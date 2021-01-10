@@ -242,10 +242,10 @@ namespace StatsSystemNS
 			campaign.ToggleUserWindow(g_interface);
 
 		// Setting value each tick? I dislike this
-		if( int(stats.statsDict["points_unused"]) >= 10 && (Platform::GetKeyState(224).Down || Platform::GetKeyState(228).Down) )
+		if( int(stats.statsDict["points_unused"]) >= 10 && (Platform::GetKeyState(224).Down || Platform::GetKeyState(228).Down) ) // Left ctrl or Right ctrl
 		{
 			addedValue = 10;
-		}else if( int(stats.statsDict["points_unused"]) >= 5 && (Platform::GetKeyState(225).Down || Platform::GetKeyState(229).Down) ){
+		}else if( int(stats.statsDict["points_unused"]) >= 5 && (Platform::GetKeyState(225).Down || Platform::GetKeyState(229).Down) ){ // Left shift or Right shift
 			addedValue = 5;
 		}else{
 			addedValue = 1;
