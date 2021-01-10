@@ -11,6 +11,17 @@ namespace StatsSystemNS
 		int currentLevel = 0;
 		int pointsOnLevelUp = 5;
 
+		int healthAdd = 5;
+		int manaAdd = 5;
+		float healthRegenAdd = 0.1f;
+		float manaRegenAdd = 0.2f;
+		int armorAdd = 1;
+		int resistanceAdd = 1;
+		float attackSpeedAdd = 0.1f;
+		float skillSpeedAdd = 0.1f;
+		int attackDamageAdd = 1;
+		int SkillPowerAdd = 1;
+
 		dictionary statsDict = { 
 			{"points_health", 0},
 			{"points_mana", 0},
