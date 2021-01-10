@@ -8,11 +8,11 @@
 
 	<doc>
 		<group>
-			<rect width="120" height="200" spriteset="gui/variable/bigwindow_borders.sval" anchor="0.5 0.5">
+			<rect width="128" height="200" spriteset="gui/variable/bigwindow_borders.sval" anchor="0.5 0.5">
 				<!-- Header -->
-				<rect width="116" height="18" offset="2 2" flow="hbox">
+				<rect width="124" height="18" offset="2 2" flow="hbox">
 					<!-- Headline -->
-					<rect width="95" height="18" spriteset="gui/variable/headline_hor.sval">
+					<rect width="103" height="18" spriteset="gui/variable/headline_hor.sval">
 						<text font="gui/fonts/arial11_bold.fnt" text="STATS" anchor="0.5 0.5" />
 					</rect>
 
@@ -25,7 +25,7 @@
 				</rect>
 
 				<!-- Separator -->
-				<rect width="116" height="3" offset="2 20" spriteset="gui/variable/3pxbar_hor.sval" />
+				<rect width="124" height="3" offset="2 20" spriteset="gui/variable/3pxbar_hor.sval" />
 
 			 	<rect width="116" height="116" color="#202a26FF" offset="2 23" flow="hbox">
      				<!-- <text offset="4" font="gui/fonts/arial11.fnt" color="#FFFFFFFF" text="Unspend points:" /> -->
@@ -39,7 +39,7 @@
 				</scrollrect>
 
 				<!-- Scrollbar -->
-				<!-- <scrollbar forid="list" spriteset="scrollbar" outside="true" offset="3 0" buttons-size="14" trough-offset="18" handle-border="2" /> -->
+				<scrollbar forid="list" spriteset="scrollbar" outside="true" buttons-size="14" trough-offset="18" handle-border="2" height-add="16" offset="0 -8" />
 
 				<!-- Separators -->
 				<!-- <rect width="3" height="175" offset="134 23" spriteset="gui/variable/3pxbar_vert.sval" /> -->
