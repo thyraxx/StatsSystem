@@ -20,6 +20,8 @@ namespace StatsSystemNS
 			{"points_resistance", 0},
 			{"points_attack_speed", 0}, // is the first "skill", aka primary attack
 			{"points_skill_speed", 0}, // aka cooldown
+			{"points_attack_damage", 0},
+			{"points_skill_damage", 0},
 			{"points_unused", 5}
 		};
 
