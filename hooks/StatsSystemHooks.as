@@ -82,11 +82,17 @@ namespace StatsSystemNS
 		stats.statsDict["points_resistance"] = GetParamFloat(UnitPtr(), sval, "points_resistance", false);
 		stats.statsDict["points_attack_speed"] = GetParamFloat(UnitPtr(), sval, "points_attack_speed", false);
 		stats.statsDict["points_skill_speed"] = GetParamFloat(UnitPtr(), sval, "points_skill_speed", false);
+		stats.statsDict["points_attack_damage"] = GetParamFloat(UnitPtr(), sval, "points_attack_damage", false);
+		stats.statsDict["points_skill_damage"] = GetParamFloat(UnitPtr(), sval, "points_skill_damage", false);
+
 
 		stats.statsDict["points_unused"] = GetParamInt(UnitPtr(), sval, "points_unused", false, stats.pointsOnLevelUp * stats.currentLevel );
 
 		g_allModifiers.m_modsAttackTimeMulConst = float( stats.statsDict["points_attack_speed"] ) * 0.01f + 1;
 		g_allModifiers.m_modsSkillTimeMulConst = float( stats.statsDict["points_skill_speed"] ) * 0.01f + 1;
+
+		g_allModifiers.m_modsAttackDamageAddConst.x = float( stats.statsDict["points_attack_damage"] ) * 1;
+		g_allModifiers.m_modsAttackDamageAddConst.y = float( stats.statsDict["points_skill_damage"] ) * 1;
 	}
 
 	[Hook]
@@ -101,6 +107,8 @@ namespace StatsSystemNS
 		builder.PushFloat("points_resistance", float(stats.statsDict["points_resistance"]));
 		builder.PushFloat("points_attack_speed", float(stats.statsDict["points_attack_speed"]));
 		builder.PushFloat("points_skill_speed", float(stats.statsDict["points_skill_speed"]));
+		builder.PushFloat("points_attack_damage", float(stats.statsDict["points_attack_damage"]));
+		builder.PushFloat("points_skill_damage", float(stats.statsDict["points_skill_damage"]));
 
 		builder.PushInteger("points_unused", int(stats.statsDict["points_unused"]));
 	}
@@ -140,6 +148,9 @@ namespace StatsSystemNS
 
 			g_allModifiers.m_modsAttackTimeMulConst = 1.0f;
 			g_allModifiers.m_modsSkillTimeMulConst = 1.0f;
+
+			g_allModifiers.m_modsAttackDamageAddConst.x = 0;
+			g_allModifiers.m_modsAttackDamageAddConst.y = 0;	
 
 			g_interface.RefreshList();
 		}
@@ -192,6 +203,16 @@ namespace StatsSystemNS
 			g_allModifiers.m_modsSkillTimeMulConst += 0.01f;
 			print(g_allModifiers.m_modsSkillTimeMulConst);
 			print( float(stats.statsDict["points_skill_speed"]) );
+		}else if(statName == "attack_damage"){
+			stats.statsDict["points_attack_damage"] = float(stats.statsDict["points_attack_damage"]) + addedValue;
+			g_allModifiers.m_modsAttackDamageAddConst.x += addedValue;
+			print(g_allModifiers.m_modsAttackDamageAddConst.x);
+			print( float(stats.statsDict["points_attack_damage"]) );
+		}else if(statName == "skill_damage"){
+			stats.statsDict["points_skill_damage"] = float(stats.statsDict["points_skill_damage"]) + addedValue;
+			g_allModifiers.m_modsAttackDamageAddConst.y += addedValue;
+			print(g_allModifiers.m_modsAttackDamageAddConst.y);
+			print( float(stats.statsDict["points_skill_damage"]) );
 		}
 	}
 
