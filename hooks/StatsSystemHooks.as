@@ -228,6 +228,8 @@ namespace StatsSystemNS
 			print(g_allModifiers.m_modsAttackDamageAddConst.y);
 			print( float(stats.statsDict["points_skill_damage"]) );
 		}
+
+		m_record.RefreshModifiers();
 	}
 
 	[Hook]
