@@ -180,14 +180,12 @@ namespace StatsSystemNS
 		print("Adding a point to " + statName);
 		stats.statsDict["points_unused"] = int(stats.statsDict["points_unused"]) - addedValue;
 
-
-
 		// Maybe possible to use a switch instead?
 		// But can only use integral, need to change to enums possibly
 		if(statName == "health")
 		{
 			stats.statsDict["points_health"] = float(stats.statsDict["points_health"]) + addedValue;
-			m_record.classStats.base_health += 1 * addedValue;
+			m_record.classStats.base_health += 5 * addedValue;
 			print( float(stats.statsDict["points_health"]) );
 		}else if(statName == "health_regen"){
 			stats.statsDict["points_health_regen"] = float(stats.statsDict["points_health_regen"]) + addedValue;
@@ -195,7 +193,7 @@ namespace StatsSystemNS
 			print( float(stats.statsDict["points_health_regen"]) );
 		}else if(statName == "mana"){
 			stats.statsDict["points_mana"] = float(stats.statsDict["points_mana"]) + addedValue;
-			m_record.classStats.base_mana += 1 * addedValue;
+			m_record.classStats.base_mana += 5 * addedValue;
 			print( float(stats.statsDict["points_mana"]) );
 		}else if(statName == "mana_regen"){
 			stats.statsDict["points_mana_regen"] = float(stats.statsDict["points_mana_regen"]) + addedValue;
