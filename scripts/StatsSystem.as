@@ -77,6 +77,7 @@ namespace StatsSystemNS
 			{
 				auto m_wItem = cast<ScalableSpriteButtonWidget>(statAndTitleGroup[i].m_children[0]);
 				m_wItem.m_enabled = ( int(stats.statsDict["points_unused"]) > 0 );
+				m_wItem.m_tooltipText = int(stats.statsDict[ stats.statsDict.getKeys()[i] ]);
 			}
 		}
 
