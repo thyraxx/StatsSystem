@@ -40,19 +40,19 @@ namespace StatsSystemNS
 			Widget@ wNewButton = null;
 			GroupWidget@ wRectWidget = null;
 
-			for(uint i = 0; i < dict.getKeys().length(); i++)
+			for(uint i = 0; i < stats.statsDict.getKeys().length() - 1; i++)
 			{
 				auto wNewButtonStat = cast<ScalableSpriteButtonWidget>(m_wTemplateButton.Clone());
 				auto wNewTextTitle = cast<TextWidget>(m_wTemplateText.Clone());
 				auto wNewRectWidget = cast<GroupWidget>(m_wTemplateRectWidget.Clone());
 
-				wNewButtonStat.m_func = "action " + string(dict.getKeys()[i]);
+				wNewButtonStat.m_func = "action " + string(stats.statsDict.getKeys()[i]);
 				wNewButtonStat.SetText("+");
 				wNewButtonStat.m_enabled = ( int(stats.statsDict["points_unused"]) > 0 );
 				@wNewButton = wNewButtonStat;
 				@wRectWidget = wNewRectWidget;
-				wNewButton.m_tooltipText = string(dict[ dict.getKeys()[i] ]);
-				wNewTextTitle.SetText( string(dict[ dict.getKeys()[i] ]) );
+				wNewButton.m_tooltipText = int(stats.statsDict[ stats.statsDict.getKeys()[i] ]);
+				wNewTextTitle.SetText( string( dict[ stats.statsDict.getKeys()[i] ] ));
 
 				wNewButton.m_visible = true;
 				wNewTextTitle.m_visible = true;
