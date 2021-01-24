@@ -102,11 +102,12 @@ namespace StatsSystemNS
 
 		stats.statsDict["points_unused"] = GetParamInt(UnitPtr(), sval, "points_unused", false, stats.pointsOnLevelUp * stats.currentLevel );
 
-		g_allModifiers.m_modsAttackTimeMulConst = float( stats.statsDict["points_attack_speed"] ) * 0.01f + 1;
-		g_allModifiers.m_modsSkillTimeMulConst = float( stats.statsDict["points_skill_speed"] ) * 0.01f + 1;
+		g_allModifiers.m_modsAttackTimeMulConst = float( stats.statsDict["points_attack_speed"] ) * 0.01f + 1; // Attack speed starts at 1.0f, always + 1
+		g_allModifiers.m_modsSkillTimeMulConst = float( stats.statsDict["points_skill_speed"] ) * 0.01f + 1; // Skill speed starts at 1.0f, always + 1
 
 		g_allModifiers.m_modsAttackDamageAddConst.x = float( stats.statsDict["points_attack_damage"] ) * 1;
 		g_allModifiers.m_modsAttackDamageAddConst.y = float( stats.statsDict["points_skill_damage"] ) * 1;
+
 	}
 
 	[Hook]
