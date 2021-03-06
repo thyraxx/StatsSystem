@@ -45,7 +45,7 @@ namespace StatsSystemNS
 		AddFunction("add_point_to", { cvar_type::String }, AddPointTo, cvar_flags::Cheat,
 			"Gives a point to a chosen stat (add_point_to <health>/<health_regen>/<mana>), etc");
 
-		AddFunction("reset_points", { cvar_type::Bool }, ResetPointsUnused, cvar_flags::Cheat);
+		AddFunction("reset_points", { cvar_type::Bool }, ResetPointsUnused);
 
 		// So Blood altars won't spawn
 		// I'll be honest, I don't know for sure if this works
