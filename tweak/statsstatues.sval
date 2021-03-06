@@ -1,10 +1,10 @@
 <loader>Statues::LoadStatues</loader>
 <dict>
-	<dict name="test">
-		<string name="name">Unspent point boost</string>
-		<string name="desc">This thing is too OP. Expect a rebalance.</string>
-		<string name="desc-upgrade"></string>
-		<string name="use-text">Lore here</string>
+	<dict name="lazy-hero">
+		<string name="name">Lazy Hero</string>
+		<string name="desc">+0.001% Damage for every unspent stat point.</string>
+		<string name="desc-upgrade">Add 0.001 on top of multiplier</string>
+		<string name="use-text">Despite living a peaceful life, his raw talent could destroy armies.</string>
 
 		<int name="cost">100</int>
 
@@ -12,11 +12,10 @@
 		<string name="scene">ice_mage</string>
 		<string name="scene-small">ice_mage_portrait</string>
 		
-		<dict name="modifier">
-			<string name="class">Modifiers::StatsBoost</string>
-			<float name="attack-mul-add">0.075</float>
-			<float name="spell-mul-add">0.075</float>
+		<dict name="inc-modifier">
+			<string name="class">Modifiers::StatsBoostStatue</string>
+			<float name="attack-mul-add">0.001</float>
+			<float name="spell-mul-add">0.001</float>
 		</dict>
 	</dict>
-
 </dict>
