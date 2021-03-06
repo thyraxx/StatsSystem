@@ -8,9 +8,10 @@ namespace StatsSystemNS
 		TextWidget@ m_wTemplateText;
 		TextWidget@ m_wPointsUnspentText;
 		GroupWidget@ m_wTemplateRectWidget;
-		
-		// Should I use this, or rather a combination of this and .lang file?
-		dictionary dict = { {"health", "Health"}, {"health_regen", "Health Regen"}, {"mana", "Mana"}, {"mana_regen", "Mana Regen"}, {"armor", "Armor"}, {"resistance", "Resistance"}, {"attack_speed", "Attack Speed"}, {"skill_speed", "Cooldown"}, {"attack_damage", "Attack Damage"}, {"skill_damage", "Skill Power"} };
+
+
+		// TODO: Remove
+		dictionary dict = { {"points_health", "Health"}, {"points_health_regen", "Health Regen"}, {"points_mana", "Mana"}, {"points_mana_regen", "Mana Regen"}, {"points_armor", "Armor"}, {"points_resistance", "Resistance"}, {"points_attack_speed", "Attack Speed"}, {"points_skill_speed", "Cooldown"}, {"points_attack_damage", "Attack Damage"}, {"points_skill_damage", "Skill Power"} };
 
 		StatsSystem(GUIBuilder@ b)
 		{
@@ -26,7 +27,6 @@ namespace StatsSystemNS
 
 		void Show() override
 		{
-
 			CreateList();
 		}
 
