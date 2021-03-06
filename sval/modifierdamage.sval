@@ -1,0 +1,5 @@
+<dict>
+	<string name="class">Modifiers::Damage</string>
+	<int name="attack-power">1</int>
+	<int name="spell-power">1</int>
+</dict>
