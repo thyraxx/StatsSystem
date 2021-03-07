@@ -10,7 +10,7 @@ namespace StatsSystemNS
 	StatsSystem@ g_interface;
 	//Modifiers::ModifierList modifierList;
 	Modifiers::Damage@ modi;
-	bool alreadyExectuted = false;
+	bool alreadyExecuted = false;
 		
 	int addedValue = 1;
 
@@ -91,7 +91,7 @@ namespace StatsSystemNS
 	[Hook]
 	void GameModeSpawnPlayer(Campaign@ campaign, PlayerRecord@ record)
 	{
-		if(!record.local || alreadyExectuted == true)
+		if(!record.local || alreadyExecuted == true)
 			return;
 
 		if(m_record == null)
@@ -111,7 +111,7 @@ namespace StatsSystemNS
 		// Our own custom level up values
 		SetCustomStats();
 
-		alreadyExectuted = true;
+		alreadyExecuted = true;
 	}
 
 	[Hook]
