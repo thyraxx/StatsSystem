@@ -219,10 +219,20 @@ namespace StatsSystemNS
 			
 			stats.statsDict["points_unused"] = totalSpentPoints;
 
-			g_allModifiers.m_modsAttackTimeMulConst = 1.0f;
-			g_allModifiers.m_modsSkillTimeMulConst = 1.0f;
+			g_allModifiers.m_modsAttackTimeMulConst = 1.0f; // Attack speed
+			g_allModifiers.m_modsSkillTimeMulConst = 1.0f; // Skill speed
 
-			SetCustomStats();
+			auto charData = Resources::GetSValue("players/" + m_record.charClass + "/char.sval");
+
+			// Set everything to base stats from specific class sval file
+			m_record.classStats.base_health = charData.GetDictionaryEntry("base-health").GetFloat();
+			m_record.classStats.base_health_regen = charData.GetDictionaryEntry("base-health-regen").GetFloat();
+			m_record.classStats.base_mana = charData.GetDictionaryEntry("base-mana").GetFloat();
+			m_record.classStats.base_mana_regen = charData.GetDictionaryEntry("base-mana-regen").GetFloat();
+			m_record.classStats.base_armor = 0;
+			m_record.classStats.base_resistance = 0;
+
+			m_record.modifiers.Remove(modi);
 			m_record.RefreshModifiers();
 			g_interface.RefreshList();
 		}
