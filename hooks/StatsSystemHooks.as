@@ -144,19 +144,12 @@ namespace StatsSystemNS
 		g_allModifiers.m_modsSkillTimeMulConst = float( stats.statsDict["points_skill_speed"] ) * 0.01f + 1; // Skill speed starts at 1.0f, always + 1
 
 
-		// TODO: BUGGED?!
-		//g_allModifiers.m_modsAttackDamageAddConst.x = int( stats.statsDict["points_attack_damage"] ) * 1;
-		//g_allModifiers.m_modsAttackDamageAddConst.y = int( stats.statsDict["points_skill_damage"] ) * 1;
-
 		auto damagesval = Resources::GetSValue("sval/modifierdamage.sval");
 		@modi = Modifiers::Damage(UnitPtr(), damagesval);
 		modi.m_power = ivec2(1 * int(stats.statsDict["points_attack_damage"]), 1 * int(stats.statsDict["points_skill_damage"]) );
-		//print("Before: " + modi.m_power);
-
 
  		m_record.modifiers.Add(modi);
  		m_record.RefreshModifiers();
- 		//m_record.modifiersUpgrades.Add();
 	}
 
 	[Hook]
