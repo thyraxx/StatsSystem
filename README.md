@@ -5,6 +5,7 @@ Bloodrites should also be removed from the game for proper balancing, no use in 
 
 # Required
 https://github.com/thyraxx/MoreHooks/releases/latest
+And enable both mods from the main menu.
 
 # Usage
 With **F6** you can open the stats window.
