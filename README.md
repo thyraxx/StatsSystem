@@ -14,7 +14,7 @@ In console you can type **reset_points true** to claim back all spent points.
 
 When Holding shift OR Ctrl (left Ctrl opens your char window tho! So it is possible to use the right ctrl if that's available to you), you can spend 5 or 10 points instead of clicking tons of times.
 
-### How do I enable mods?
+### How do I enable mods? (by Miss) 
 1. Click the "Profiles" button in the main menu. (It's the button left of the Singleplayer button)
 
 2. Click "Clone this profile" so that you have a secondary profile to use for modding. (Note: Enabling mods on a profile disables achievements for that profile!)
