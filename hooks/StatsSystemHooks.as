@@ -293,8 +293,13 @@ namespace StatsSystemNS
 		if (g_interface is null)
 			return;
 
-		if (Platform::GetKeyState(63).Pressed) // F6
+		if (Platform::GetKeyState(63).Pressed && !m_record.IsDead()) // F6
+		{
 			campaign.ToggleUserWindow(g_interface);
+		}else if(m_record.IsDead() && g_interface.IsVisible()) // Kind of ugly :/
+		{
+			g_interface.Close();
+		}
 
 		// Setting value each tick? I dislike this
 		if( int(stats.statsDict["points_unused"]) >= 10 && (Platform::GetKeyState(224).Down || Platform::GetKeyState(228).Down) ) // Left ctrl or Right ctrl
