@@ -63,34 +63,28 @@ namespace StatsSystemNS
 		// I think this overwrite the usual Flag which should contain WH, to check if
 		// you have this DLC, but since I changed it to something nonexistent, it can't spawn anymore.
 		g_flags.m_flags["special_blood_altar"] = "NOBR";
+	}
 
+	[Hook]
+	void GameModeInitializePlayer(Campaign@ campaign, PlayerRecord@ record)
+	{
+		if(!record.local)
+			return;
 
+		@m_record = record;
+		stats.currentLevel = m_record.EffectiveLevel();
 	}
 
 	[Hook]
 	void GameModeSpawnPlayer(Campaign@ campaign, PlayerRecord@ record)
 	{
-		if(!record.local || alreadyExecuted == true)
+		if(!record.local)
 			return;
-
-		if(m_record == null)
-			@m_record = GetLocalPlayerRecord();
-
-		m_record.bloodAltarRewards.removeRange(0, m_record.bloodAltarRewards.length());
-
-		// Level up values, set this to 0 because we want to give
-		// the player stat points instead of static level up stats
-		m_record.classStats.level_health = 0;
-		m_record.classStats.level_health_regen = 0;
-		m_record.classStats.level_mana = 0;
-		m_record.classStats.level_mana_regen = 0;
-		m_record.classStats.level_armor = 0;
-		m_record.classStats.level_resistance = 0;
 
 		// Our own custom level up values
 		SetCustomStats();
 
-		alreadyExecuted = true;
+		m_record.bloodAltarRewards.removeRange(0, m_record.bloodAltarRewards.length());
 	}
 
 	[Hook]
