@@ -8,46 +8,10 @@ namespace StatsSystemNS
 	StatsPoints@ stats = StatsPoints();
 	SValue@ sval;
 	StatsSystem@ g_interface;
-	//Modifiers::ModifierList modifierList;
 	Modifiers::Damage@ modi;
 	bool alreadyExecuted = false;
 		
 	int addedValue = 1;
-
-
-	// TODO: seperate class
-	class StatsPoints
-	{
-		int currentLevel = 0;
-		int pointsOnLevelUp = 5;
-
-		int healthAdd = 5;
-		int manaAdd = 5;
-		float healthRegenAdd = 0.1f;
-		float manaRegenAdd = 0.2f;
-		int armorAdd = 1;
-		int resistanceAdd = 1;
-		float attackSpeedAdd = 0.1f;
-		float skillSpeedAdd = 0.1f;
-		int attackDamageAdd = 1;
-		int SkillPowerAdd = 1;
-
-		dictionary statsDict = { 
-			{"points_health", 0},
-			{"points_mana", 0},
-			{"points_health_regen", 0},
-			{"points_mana_regen", 0},
-			{"points_armor", 0},
-			{"points_resistance", 0},
-			{"points_attack_speed", 0}, // is the first "skill", aka primary attack
-			{"points_skill_speed", 0}, // aka cooldown
-			{"points_attack_damage", 0},
-			{"points_skill_damage", 0},
-			{"points_unused", 5}
-		};
-
-		StatsPoints() {}
-	}
 
 	[Hook]
 	void GameModeConstructor(Campaign@ campaign)
@@ -93,12 +57,6 @@ namespace StatsSystemNS
 		if(!record.local)
 			return;
 
-		//@m_record = record; // bugged?
-		if(m_record == null)
-			@m_record = GetLocalPlayerRecord();
-
-		stats.currentLevel = m_record.EffectiveLevel();
-
 		stats.statsDict["points_health"] = GetParamFloat(UnitPtr(), sval, "points_health", false);
 		stats.statsDict["points_health_regen"] = GetParamFloat(UnitPtr(), sval, "points_health_regen", false);
 		stats.statsDict["points_mana"] = GetParamFloat(UnitPtr(), sval, "points_mana", false);
@@ -120,9 +78,10 @@ namespace StatsSystemNS
 		auto damagesval = Resources::GetSValue("sval/modifierdamage.sval");
 		@modi = Modifiers::Damage(UnitPtr(), damagesval);
 		modi.m_power = ivec2(1 * int(stats.statsDict["points_attack_damage"]), 1 * int(stats.statsDict["points_skill_damage"]) );
+		//print("Before: " + modi.m_power);
 
- 		m_record.modifiers.Add(modi);
- 		m_record.RefreshModifiers();
+ 		record.modifiers.Add(modi);
+ 		record.RefreshModifiers();
 	}
 
 	[Hook]
@@ -130,9 +89,6 @@ namespace StatsSystemNS
 	{
 		if(!record.local)
 			return;
-
-		if(m_record == null)
-			@m_record = GetLocalPlayerRecord();
 
 		// Save user data
 		builder.PushFloat("points_health", float(stats.statsDict["points_health"]));
@@ -151,6 +107,15 @@ namespace StatsSystemNS
 
 	void SetCustomStats()
 	{
+		// Level up values, set this to 0 because we want to give
+		// the player stat points instead of static level up stats
+		m_record.classStats.level_health = 0;
+		m_record.classStats.level_health_regen = 0;
+		m_record.classStats.level_mana = 0;
+		m_record.classStats.level_mana_regen = 0;
+		m_record.classStats.level_armor = 0;
+		m_record.classStats.level_resistance = 0;
+
 		m_record.classStats.base_health = m_record.classStats.base_health + float(stats.statsDict["points_health"]) * 5;
 		m_record.classStats.base_health_regen = m_record.classStats.base_health_regen + float(stats.statsDict["points_health_regen"]) * 0.1;
 		m_record.classStats.base_mana = m_record.classStats.base_mana + float(stats.statsDict["points_mana"]) * 5;
@@ -159,17 +124,6 @@ namespace StatsSystemNS
 		m_record.classStats.base_resistance = float(stats.statsDict["points_resistance"]) * 1;
 	}
 
-	int totalSpentPoints()
-	{
-		int totalSpentPoints = 0;
-
-		for(uint i = 0; i < stats.statsDict.getKeys().length(); i++)
-		{
-			totalSpentPoints += int(stats.statsDict[ stats.statsDict.getKeys()[i] ]);
-		}
-
-		return totalSpentPoints;
-	}
 
 	// For testing, but we still want to call the same function
 	// instead of creating 2 functions which do the same
@@ -180,20 +134,22 @@ namespace StatsSystemNS
 
 	void ResetPointsUnused(cvar_t@ arg0)
 	{
+
 		if(arg0.GetBool())
 		{
-			int totalSpentPoints = 0;
-
-			for(uint i = 0; i < stats.statsDict.getKeys().length(); i++)
-			{
-				totalSpentPoints += int(stats.statsDict[ stats.statsDict.getKeys()[i] ]);
-				stats.statsDict[ stats.statsDict.getKeys()[i] ] = 0;
-			}
-			
+			// Misleading name.. Now it also works with chars that start with higher level
+			int totalSpentPoints = m_record.EffectiveLevel() * stats.pointsOnLevelUp;
 			stats.statsDict["points_unused"] = totalSpentPoints;
 
+			for(uint i = 0; i < stats.statsDict.getKeys().length() - 1; i++)
+			{
+				stats.statsDict[ stats.statsDict.getKeys()[i] ] = 0;
+			}
+
+			// Instead of changing a "const", maybe add a custom modifier?
 			g_allModifiers.m_modsAttackTimeMulConst = 1.0f; // Attack speed
 			g_allModifiers.m_modsSkillTimeMulConst = 1.0f; // Skill speed
+			//modi.m_power = ivec2(0, 0); // Attack Damage/Skill power
 
 			auto charData = Resources::GetSValue("players/" + m_record.charClass + "/char.sval");
 
@@ -212,6 +168,8 @@ namespace StatsSystemNS
 	}
 
 	// Old function I used inside GameModeUpdate, now created my own hook
+	// Since many people have problems specifically with my hooks mod
+	// because of me and other people overwriting files, might go back to this
 	bool LevelChanged()
 	{
 		return (stats.currentLevel < m_record.EffectiveLevel());
@@ -275,7 +233,7 @@ namespace StatsSystemNS
 			//print( float(stats.statsDict["points_skill_damage"]) );
 		}
 
-
+		// First remove then add again, need to find something better.
 		m_record.modifiers.Remove(modi);
 		m_record.modifiers.Add(modi);
 		m_record.RefreshModifiers();
